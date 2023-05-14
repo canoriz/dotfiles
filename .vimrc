@@ -10,6 +10,7 @@ if has("termguicolors")
 endif
 
 call plug#begin()
+Plug 'easymotion/vim-easymotion'
 Plug 'preservim/tagbar'
 Plug 'vim-syntastic/syntastic'
 Plug 'rust-lang/rust.vim'
@@ -28,8 +29,12 @@ call plug#end()
 
 " theme
 colorscheme everforest
+
 colorscheme PaperColor
 set background=dark
+highlight ALEVirtualTextError guifg=red
+highlight ALEVirtualTextWarning guifg=yellow
+highlight ALEError guifg=cyan cterm=underline
 
 " cursorline highlight
 set cursorline
@@ -128,14 +133,23 @@ autocmd FileType python let g:syntastic_quiet_messages = {
 
 
 " ale
-let g:ale_set_balloons = 1
+let g:ale_sign_error = '>>'
+let g:ale_sign_warning = '--'
+let g:ale_close_preview_on_insert = 1
+let g:ale_cursor_detail = 1
+" let g:ale_virtualtext_cursor = 'current'
+let g:ale_lint_on_text_changed = 'always'
+let g:ale_floating_preview = 1
+" let g:ale_set_balloons = 1
 let g:ale_linters = {'rust': ['cargo', 'analyzer']}
 let g:ale_completion_enabled = 1
 let g:ale_fixers = {
-\   'rust': ['rustfmt',
-\   'trim_whitespace',
-\   'remove_trailing_lines'],
+\   'rust': [
+\     'rustfmt',
+\     'trim_whitespace',
+\     'remove_trailing_lines'],
 \}
+let g:ale_rust_cargo_use_clippy = 1
 
 nnoremap <C-[> :ALEFindReferences<cr>
 nnoremap <C-h> :ALEHover<cr>}
